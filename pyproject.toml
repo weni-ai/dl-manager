@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "datalake_manager"
+version = "0.1.0"
+description = "Manage acess to data lake"
+authors = ["Lucas Linhares <lucas.linhares@vtex.com>"]
+readme = "README.md"
+packages = [{include = "datalake_manager"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.31.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
