@@ -1,15 +1,20 @@
+import json
 import requests
 from typing import Dict, Any
 
+from datalake_manager.config import DATALAKE_API_URL
+
 class RedshiftClient:
     def __init__(self, base_url: str, headers: Dict[str, str]):
-        self.base_url = base_url
-        self.headers = headers
+        self.base_url = DATALAKE_API_URL
+        self.headers = {"Content-Type": "application/json"}
     
     def send(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+        json_payload = json.dumps(payload, ensure_ascii=False)
         response = requests.post(
-            f"{self.base_url}",
-            json=payload,
-            headers=self.headers
+            url=self.base_url,
+            data=json_payload,
+            headers=self.headers,
         )
-        return response.json()
+
+        return response
