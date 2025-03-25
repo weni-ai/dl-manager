@@ -4,18 +4,7 @@ from datalake_manager.config import DATALAKE_API_URL, REDSHIFT_DATABASE, REDSHIF
 from typing import Any, List
 
 class RedshiftManager(DatalakeManager):
-    def __init__(self, 
-                 host: str = REDSHIFT_HOST,
-                 user: str = REDSHIFT_USER,
-                 password: str = REDSHIFT_PASSWORD,
-                 database: str = REDSHIFT_DATABASE,
-                 metric: str = REDSHIFT_METRIC,
-                 api_url: str = DATALAKE_API_URL):
-        self.host = host
-        self.user = user
-        self.password = password
-        self.database = database
-        self.connection = None
+    def __init__(self, metric: str = REDSHIFT_METRIC, api_url: str = DATALAKE_API_URL):
         self.client = RedshiftClient(api_url, {"Content-Type": "application/json"})
         self.metric = metric
 
