@@ -7,8 +7,11 @@ readme = "README.md"
 packages = [{include = "datalake_manager"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.9,<4.0"
 requests = "^2.31.0"
+grpcio = "^1.71.0"
+grpcio-tools = "^1.71.0"
+grpcio-health-checking = "^1.71.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4.0"
