@@ -5,7 +5,7 @@ from typing import Dict, Any
 from datalake_manager.config import DATALAKE_API_URL
 
 class RedshiftClient:
-    def __init__(self, base_url: str, headers: Dict[str, str]):
+    def __init__(self):
         self.base_url = DATALAKE_API_URL
         self.headers = {"Content-Type": "application/json"}
     
