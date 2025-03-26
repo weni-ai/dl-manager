@@ -53,7 +53,7 @@ jobs:
           username: ${{ secrets.AWS_ACCESS_KEY_ID_SHARED }}       # Credentials used to push image to ECR repository
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY_SHARED }}
 
-      - name: Build and push - Chats-Engine Image
+      - name: Build and push - Datalake Manager Image
         uses: docker/build-push-action@v3
         with:
           context: .
