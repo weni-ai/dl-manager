@@ -31,7 +31,7 @@ do_gosu(){
 
 if [[ "start" == "$1" ]]; then
     echo "Starting gRPC on DL Manager..."
-    do_gosu "app_user" exec python -m datalake_manager.server.server
+    do_gosu "app_user" exec python -m datalake_manager.server.server --bind=0.0.0.0:50051
 fi
 
 exec "$@"
