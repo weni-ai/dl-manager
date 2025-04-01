@@ -15,6 +15,7 @@ grpcio-health-checking = "^1.71.0"
 flake8 = "^7.2.0"
 black = "^25.1.0"
 isort = "^6.0.1"
+requests-mock = "^1.12.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4.0"
