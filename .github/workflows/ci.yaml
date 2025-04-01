@@ -33,9 +33,9 @@ jobs:
           poetry run black --check datalake_manager
           poetry run isort --check-only datalake_manager
           poetry run flake8 datalake_manager
-
-        # - name: Run tests
-        #   run: poetry run pytest datalake_manager
+      
+      - name: Run tests
+        run: poetry run pytest datalake_manager
 
       # - name: Upload coverage reports to Codecov
       #   uses: codecov/codecov-action@v5
