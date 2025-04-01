@@ -1,6 +1,6 @@
 from datalake_manager.manager_interface import DatalakeManager
 from datalake_manager.clients.redshift_client import RedshiftClient
-from datalake_manager.config import DATALAKE_API_URL, REDSHIFT_DATABASE, REDSHIFT_HOST, REDSHIFT_METRIC, REDSHIFT_PASSWORD, REDSHIFT_USER
+from datalake_manager.config import DATALAKE_API_URL, REDSHIFT_METRIC
 from typing import Any, List
 
 class RedshiftManager(DatalakeManager):
