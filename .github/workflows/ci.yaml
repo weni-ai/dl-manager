@@ -28,6 +28,12 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: Run pre-test checks
+        run: |
+          poetry run black --check datalake_manager
+          poetry run isort --check-only datalake_manager
+          poetry run flake8 datalake_manager
+
         # - name: Run tests
         #   run: poetry run pytest datalake_manager
 
@@ -36,5 +42,5 @@ jobs:
       #   with:
       #     token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Run linters
-        run: poetry run flake8 dalatake_manager
+      
+        
