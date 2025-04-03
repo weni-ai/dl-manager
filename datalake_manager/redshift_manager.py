@@ -13,7 +13,7 @@ class RedshiftManager(DatalakeManager):
     def __init__(self, api_url: str = DATALAKE_API_URL):
         self.client = RedshiftClient(api_url, {"Content-Type": "application/json"})
 
-    def execute_query(self, query: str) -> List[Any]:
+    def execute_query(self, query: str) -> List[Any]:  # pragma: no cover
         return NotImplemented
 
     def insert(self, path: str, data: List[dict]) -> None:

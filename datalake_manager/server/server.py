@@ -16,13 +16,16 @@ class DatalakeManagerService(
     msgs_pb2_grpc.DatalakeManagerServiceServicer,
     traces_pb2_grpc.DatalakeManagerServiceServicer,
 ):
+    def __init__(self, redshift=None):
+        self.redshift = redshift or RedshiftManager()
+
     def InsertData(self, request, context):
         data_dict = MessageToDict(request.data)
 
         print(f"Received: path={request.path}, data={data_dict}")
 
         try:
-            response = redshift.insert(request.path, data_dict)
+            response = self.redshift.insert(request.path, data_dict)
             print("Everything right!", response)
 
             return msgs_pb2.InsertResponse(status="success")
@@ -35,7 +38,7 @@ class DatalakeManagerService(
         print(f"Received Trace Data: path={request.path}, data={data_dict}")
 
         try:
-            response = redshift.insert_trace(request.path, data_dict)
+            response = self.redshift.insert_trace(request.path, data_dict)
             print("Trace inserted successfully!", response)
             return traces_pb2.InsertTraceResponse(status="success")
         except Exception as e:
@@ -43,7 +46,7 @@ class DatalakeManagerService(
             return traces_pb2.InsertTraceResponse(status="error")
 
 
-def serve():
+def serve():  # pragma: no cover
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     msgs_pb2_grpc.add_DatalakeManagerServiceServicer_to_server(
         DatalakeManagerService(), server
