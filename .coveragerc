@@ -1,0 +1,4 @@
+[run]
+omit =
+    datalake_manager/server/proto/*_pb2.py
+    datalake_manager/server/proto/*_pb2_grpc.py
