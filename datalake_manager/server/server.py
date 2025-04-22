@@ -36,9 +36,10 @@ class DatalakeManagerService(
     def InsertTraceData(self, request, context):
         data_dict = MessageToDict(request.data)
         print(f"Received Trace Data: path={request.path}, data={data_dict}")
-
+        print("data_dict", data_dict)
         try:
             response = self.redshift.insert_trace(request.path, data_dict)
+
             print("Trace inserted successfully!", response)
             return traces_pb2.InsertTraceResponse(status="success")
         except Exception as e:

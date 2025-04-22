@@ -22,6 +22,14 @@ class RedshiftManager(DatalakeManager):
         return response
 
     def insert_trace(self, path: str, data: List[dict]) -> None:
-        payload = {"name": REDSHIFT_TRACE_METRIC, "kind": path, "fields": data}
+        message_uuid = data.get("message_uuid") if data else None
+
+        payload = {
+            "name": REDSHIFT_TRACE_METRIC,
+            "kind": path,
+            "message_uuid": message_uuid,
+            "fields": data,
+        }
+
         response = self.client.send(payload)
         return response
