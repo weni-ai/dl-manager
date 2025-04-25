@@ -4,7 +4,7 @@ import warnings
 
 import grpc
 
-from datalake_manager.server.proto import traces_pb2 as traces__pb2
+import datalake_manager.server.proto.traces.traces_pb2 as traces__pb2
 
 GRPC_GENERATED_VERSION = "1.71.0"
 GRPC_VERSION = grpc.__version__

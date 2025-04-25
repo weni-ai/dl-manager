@@ -3,6 +3,8 @@ from typing import Any, List
 from datalake_manager.clients.redshift_client import RedshiftClient
 from datalake_manager.config import (
     DATALAKE_API_URL,
+    REDSHIFT_MESSAGE_TEMPLATE_METRIC,
+    REDSHIFT_MESSAGE_TEMPLATE_STATUS_METRIC,
     REDSHIFT_MSG_METRIC,
     REDSHIFT_TRACE_METRIC,
 )
@@ -23,5 +25,38 @@ class RedshiftManager(DatalakeManager):
 
     def insert_trace(self, path: str, data: List[dict]) -> None:
         payload = {"name": REDSHIFT_TRACE_METRIC, "kind": path, "fields": data}
+        response = self.client.send(payload)
+        return response
+
+    def insert_message_template(self, message_template_dict: dict) -> None:
+        payload = {
+            "name": REDSHIFT_MESSAGE_TEMPLATE_METRIC,
+            "contact_urn": message_template_dict["contact_urn"],
+            "channel": message_template_dict["channel"],
+            "language": message_template_dict["language"],
+            "template_id": message_template_dict["template_id"],
+            "template_name": message_template_dict["template_name"],
+            "template_type": message_template_dict["template_type"],
+            "message_id": message_template_dict["message_id"],
+            "direction": message_template_dict["direction"],
+            "template_variables": message_template_dict["template_variables"],
+            "text": message_template_dict["text"],
+            "fields": message_template_dict["data"],
+        }
+        
+        response = self.client.send(payload)
+        return response
+
+    def insert_message_template_status(
+        self, message_template_status_dict: dict
+    ) -> None:
+        payload = {
+            "name": REDSHIFT_MESSAGE_TEMPLATE_STATUS_METRIC,
+            "status": message_template_status_dict["status"],
+            "message_id": message_template_status_dict["message_id"],
+            "template_id": message_template_status_dict["template_id"],
+            "data": message_template_status_dict["data"],
+        }
+
         response = self.client.send(payload)
         return response
