@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 import pytest
 from google.protobuf.json_format import ParseDict
 
-import datalake_manager.server.proto.msgs_pb2 as msgs_pb2
-import datalake_manager.server.proto.traces_pb2 as traces_pb2
+import datalake_manager.server.proto.msgs.msgs_pb2 as msgs_pb2
+import datalake_manager.server.proto.traces.traces_pb2 as traces_pb2
 from datalake_manager.clients.redshift_client import RedshiftClient
 from datalake_manager.redshift_manager import RedshiftManager
 from datalake_manager.server.server import DatalakeManagerService

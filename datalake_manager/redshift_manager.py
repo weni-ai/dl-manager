@@ -43,7 +43,7 @@ class RedshiftManager(DatalakeManager):
             "text": message_template_dict["text"],
             "fields": message_template_dict["data"],
         }
-        
+
         response = self.client.send(payload)
         return response
 
