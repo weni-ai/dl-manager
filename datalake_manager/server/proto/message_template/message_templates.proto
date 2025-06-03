@@ -1,6 +1,7 @@
 syntax = "proto3";
 package message_template;
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 
 service DatalakeManagerService {
     rpc InsertMessageTemplateData (InsertMessageTemplateRequest) returns (InsertMessageTemplateResponse);
@@ -14,10 +15,11 @@ message InsertMessageTemplateRequest {
     string template_name = 4;
     string template_uuid = 5;
     string message_id = 6;
-    string direction = 7;
-    google.protobuf.Struct template_variables = 8;
-    string text = 9;
-    google.protobuf.Struct data = 10;
+    google.protobuf.Timestamp message_date = 7;
+    string direction = 8;
+    google.protobuf.Struct template_variables = 9;
+    string text = 10;
+    google.protobuf.Struct data = 11;
 }
   
 message InsertMessageTemplateResponse {
@@ -32,7 +34,7 @@ message InsertMessageTemplateStatusRequest {
     string channel = 5;
     google.protobuf.Struct data = 6;
 }
-  
+
 message InsertMessageTemplateStatusResponse {
     string status = 1;
 }
