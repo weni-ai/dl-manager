@@ -33,10 +33,9 @@ class RedshiftManager(DatalakeManager):
             "name": REDSHIFT_MESSAGE_TEMPLATE_METRIC,
             "contact_urn": message_template_dict["contact_urn"],
             "channel": message_template_dict["channel"],
-            "language": message_template_dict["language"],
-            "template_id": message_template_dict["template_id"],
+            "template_language": message_template_dict["template_language"],
             "template_name": message_template_dict["template_name"],
-            "template_type": message_template_dict["template_type"],
+            "template_uuid": message_template_dict["template_uuid"],
             "message_id": message_template_dict["message_id"],
             "direction": message_template_dict["direction"],
             "template_variables": message_template_dict["template_variables"],
@@ -52,9 +51,11 @@ class RedshiftManager(DatalakeManager):
     ) -> None:
         payload = {
             "name": REDSHIFT_MESSAGE_TEMPLATE_STATUS_METRIC,
+            "contact_urn": message_template_status_dict["contact_urn"],
             "status": message_template_status_dict["status"],
             "message_id": message_template_status_dict["message_id"],
-            "template_id": message_template_status_dict["template_id"],
+            "template_type": message_template_status_dict["template_type"],
+            "channel": message_template_status_dict["channel"],
             "data": message_template_status_dict["data"],
         }
 
