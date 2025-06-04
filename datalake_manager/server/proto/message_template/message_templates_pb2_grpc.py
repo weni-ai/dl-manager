@@ -3,7 +3,9 @@
 import grpc
 import warnings
 
-import message_templates_pb2 as message__templates__pb2
+from datalake_manager.server.proto.message_template import (
+    message_templates_pb2 as message__templates__pb2,
+)
 
 GRPC_GENERATED_VERSION = "1.71.0"
 GRPC_VERSION = grpc.__version__

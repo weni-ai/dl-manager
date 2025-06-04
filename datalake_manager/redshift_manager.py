@@ -58,7 +58,6 @@ class RedshiftManager(DatalakeManager):
             "template_type": message_template_status_dict["template_type"],
             "channel": message_template_status_dict["channel"],
             "data": message_template_status_dict["data"],
-            "message_date": message_template_status_dict["message_date"],
         }
 
         response = self.client.send(payload)
