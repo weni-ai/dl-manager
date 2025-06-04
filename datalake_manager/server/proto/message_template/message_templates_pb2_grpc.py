@@ -45,7 +45,7 @@ class DatalakeManagerServiceStub(object):
             _registered_method=True,
         )
         self.InsertMessageTemplateStatusData = channel.unary_unary(
-            "/message_template.DatalakeManagerService/InsertMessageTemplateStatus",
+            "/message_template.DatalakeManagerService/InsertMessageTemplateStatusData",
             request_serializer=message__templates__pb2.InsertMessageTemplateStatusRequest.SerializeToString,
             response_deserializer=message__templates__pb2.InsertMessageTemplateStatusResponse.FromString,
             _registered_method=True,
