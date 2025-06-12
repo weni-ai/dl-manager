@@ -3,7 +3,6 @@ from concurrent import futures
 import grpc
 from google.protobuf.json_format import MessageToDict
 
-from datalake_manager.server.proto.events import events_pb2, events_pb2_grpc
 import datalake_manager.server.proto.message_template.message_templates_pb2 as message_templates_pb2
 import datalake_manager.server.proto.message_template.message_templates_pb2_grpc as message_templates_pb2_grpc
 import datalake_manager.server.proto.msgs.msgs_pb2 as msgs_pb2
@@ -11,6 +10,7 @@ import datalake_manager.server.proto.msgs.msgs_pb2_grpc as msgs_pb2_grpc
 import datalake_manager.server.proto.traces.traces_pb2 as traces_pb2
 import datalake_manager.server.proto.traces.traces_pb2_grpc as traces_pb2_grpc
 from datalake_manager.redshift_manager import RedshiftManager
+from datalake_manager.server.proto.events import events_pb2, events_pb2_grpc
 
 redshift = RedshiftManager()
 

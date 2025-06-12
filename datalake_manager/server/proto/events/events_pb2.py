@@ -4,11 +4,14 @@
 # source: events.proto
 # Protobuf Python Version: 5.29.0
 """Generated protocol buffer code."""
-from google.protobuf import descriptor as _descriptor
-from google.protobuf import descriptor_pool as _descriptor_pool
-from google.protobuf import runtime_version as _runtime_version
-from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import (
+    descriptor as _descriptor,
+    descriptor_pool as _descriptor_pool,
+    runtime_version as _runtime_version,
+    symbol_database as _symbol_database,
+)
 from google.protobuf.internal import builder as _builder
+
 _runtime_version.ValidateProtobufRuntimeVersion(
     _runtime_version.Domain.PUBLIC,
     5,
@@ -22,9 +25,10 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
-from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-
+from google.protobuf import (
+    struct_pb2 as google_dot_protobuf_dot_struct__pb2,
+    timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2,
+)
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x65vents.proto\x12\x06\x65vents\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x01\n\x12InsertEventRequest\x12\x12\n\nevent_name\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12(\n\x04\x64\x61te\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0f\n\x07project\x18\x04 \x01(\t\x12\x13\n\x0b\x63ontact_urn\x18\x05 \x01(\t\x12%\n\nvalue_type\x18\x06 \x01(\x0e\x32\x11.events.ValueType\x12 \n\x05value\x18\x07 \x01(\x0b\x32\x11.events.ValueData\x12)\n\x08metadata\x18\x08 \x01(\x0b\x32\x17.google.protobuf.Struct\"\x81\x01\n\tValueData\x12\x13\n\tint_value\x18\x01 \x01(\x03H\x00\x12\x16\n\x0cstring_value\x18\x02 \x01(\tH\x00\x12\x14\n\nbool_value\x18\x03 \x01(\x08H\x00\x12(\n\nlist_value\x18\x04 \x01(\x0b\x32\x12.events.StringListH\x00\x42\x07\n\x05value\"\x1c\n\nStringList\x12\x0e\n\x06values\x18\x01 \x03(\t\"%\n\x13InsertEventResponse\x12\x0e\n\x06status\x18\x01 \x01(\t*|\n\tValueType\x12\x1a\n\x16VALUE_TYPE_UNSPECIFIED\x10\x00\x12\x12\n\x0eVALUE_TYPE_INT\x10\x01\x12\x15\n\x11VALUE_TYPE_STRING\x10\x02\x12\x13\n\x0fVALUE_TYPE_BOOL\x10\x03\x12\x13\n\x0fVALUE_TYPE_LIST\x10\x04\x32\x64\n\x16\x44\x61talakeManagerService\x12J\n\x0fInsertEventData\x12\x1a.events.InsertEventRequest\x1a\x1b.events.InsertEventResponseb\x06proto3')
 

@@ -3,11 +3,11 @@ from typing import Any, List
 from datalake_manager.clients.redshift_client import RedshiftClient
 from datalake_manager.config import (
     DATALAKE_API_URL,
+    REDSHIFT_EVENT_METRIC,
     REDSHIFT_MESSAGE_TEMPLATE_METRIC,
     REDSHIFT_MESSAGE_TEMPLATE_STATUS_METRIC,
     REDSHIFT_MSG_METRIC,
     REDSHIFT_TRACE_METRIC,
-    REDSHIFT_EVENT_METRIC,
 )
 from datalake_manager.manager_interface import DatalakeManager
 
