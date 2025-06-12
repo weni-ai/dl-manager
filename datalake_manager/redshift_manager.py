@@ -7,6 +7,7 @@ from datalake_manager.config import (
     REDSHIFT_MESSAGE_TEMPLATE_STATUS_METRIC,
     REDSHIFT_MSG_METRIC,
     REDSHIFT_TRACE_METRIC,
+    REDSHIFT_EVENT_METRIC,
 )
 from datalake_manager.manager_interface import DatalakeManager
 
@@ -60,5 +61,20 @@ class RedshiftManager(DatalakeManager):
             "data": message_template_status_dict["data"],
         }
 
+        response = self.client.send(payload)
+        return response
+
+    def insert_event(self, event_dict: dict) -> None:
+        payload = {
+            "name": REDSHIFT_EVENT_METRIC,
+            "event_name": event_dict["event_name"],
+            "key": event_dict["key"],
+            "date": event_dict["date"],
+            "project": event_dict["project"],
+            "contact_urn": event_dict["contact_urn"],
+            "value": event_dict["value"],
+            "value_type": event_dict["value_type"],
+            "metadata": event_dict["metadata"],
+        }
         response = self.client.send(payload)
         return response

@@ -3,6 +3,7 @@ from concurrent import futures
 import grpc
 from google.protobuf.json_format import MessageToDict
 
+from datalake_manager.server.proto.events import events_pb2, events_pb2_grpc
 import datalake_manager.server.proto.message_template.message_templates_pb2 as message_templates_pb2
 import datalake_manager.server.proto.message_template.message_templates_pb2_grpc as message_templates_pb2_grpc
 import datalake_manager.server.proto.msgs.msgs_pb2 as msgs_pb2
@@ -73,6 +74,56 @@ class DatalakeManagerService(
                 status="error"
             )
 
+    def InsertEventData(self, request, context):
+        # Extract data from individual fields of the request
+        data_dict = {
+            "event_name": request.event_name,
+            "key": request.key,
+            "date": (
+                request.date.ToDatetime().isoformat() + "Z" if request.date else None
+            ),
+            "project": request.project,
+            "contact_urn": request.contact_urn,
+            "value_type": self._get_value_type_string(request.value_type),
+            "value": self._extract_value_from_value_data(request.value),
+            "metadata": MessageToDict(request.metadata) if request.metadata else {},
+        }
+
+        print(f"Received Event Data: data={data_dict}")
+        try:
+            response = self.redshift.insert_event(data_dict)
+            print("Event inserted successfully!", response)
+            return events_pb2.InsertEventResponse(status="success")
+        except Exception as e:
+            print("Error inserting event data:", str(e))
+            return events_pb2.InsertEventResponse(status="error")
+
+    def _get_value_type_string(self, value_type_enum):
+        """Convert enum ValueType to string"""
+        if value_type_enum == events_pb2.VALUE_TYPE_INT:
+            return "int"
+        elif value_type_enum == events_pb2.VALUE_TYPE_STRING:
+            return "string"
+        elif value_type_enum == events_pb2.VALUE_TYPE_BOOL:
+            return "bool"
+        elif value_type_enum == events_pb2.VALUE_TYPE_LIST:
+            return "list"
+        else:
+            return "string"  # default
+
+    def _extract_value_from_value_data(self, value_data):
+        """Extract the value from the ValueData based on the type"""
+        if value_data.HasField("int_value"):
+            return value_data.int_value
+        elif value_data.HasField("string_value"):
+            return value_data.string_value
+        elif value_data.HasField("bool_value"):
+            return value_data.bool_value
+        elif value_data.HasField("list_value"):
+            return list(value_data.list_value.values)
+        else:
+            return ""
+
 
 def serve():  # pragma: no cover
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -83,6 +134,9 @@ def serve():  # pragma: no cover
         DatalakeManagerService(), server
     )
     message_templates_pb2_grpc.add_DatalakeManagerServiceServicer_to_server(
+        DatalakeManagerService(), server
+    )
+    events_pb2_grpc.add_DatalakeManagerServiceServicer_to_server(
         DatalakeManagerService(), server
     )
     server.add_insecure_port("[::]:50051")
