@@ -1,3 +1,4 @@
+import os
 from concurrent import futures
 
 import grpc
@@ -10,6 +11,7 @@ import datalake_manager.server.proto.msgs.msgs_pb2_grpc as msgs_pb2_grpc
 import datalake_manager.server.proto.traces.traces_pb2 as traces_pb2
 import datalake_manager.server.proto.traces.traces_pb2_grpc as traces_pb2_grpc
 from datalake_manager.redshift_manager import RedshiftManager
+from datalake_manager.server.interceptors import RateLimiterInterceptor
 from datalake_manager.server.proto.events import events_pb2, events_pb2_grpc
 
 redshift = RedshiftManager()
@@ -126,7 +128,25 @@ class DatalakeManagerService(
 
 
 def serve():  # pragma: no cover
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    # Define rate limits for each service.
+    service_limits = {
+        "events.DatalakeManagerService": "2/minute",
+        "traces.DatalakeManagerService": "200/minute",
+        "msgs.DatalakeManagerService": "1000/minute",
+        "message_template.DatalakeManagerService": "1000/minute",
+    }
+
+    # A default limit for any service not specified above.
+    default_limit = os.environ.get("GRPC_DEFAULT_RATE_LIMIT", "1000/second")
+
+    rate_limiter = RateLimiterInterceptor(
+        default_rate_limit=default_limit,
+        service_rate_limits=service_limits,
+    )
+
+    server = grpc.server(
+        futures.ThreadPoolExecutor(max_workers=10), interceptors=[rate_limiter]
+    )
     msgs_pb2_grpc.add_DatalakeManagerServiceServicer_to_server(
         DatalakeManagerService(), server
     )
@@ -140,10 +160,10 @@ def serve():  # pragma: no cover
         DatalakeManagerService(), server
     )
     server.add_insecure_port("[::]:50051")
+    print(f"Server starting at [::]:50051 with default rate limit: {default_limit}")
     server.start()
-    print("Server running in 50051...")
     server.wait_for_termination()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     serve()
