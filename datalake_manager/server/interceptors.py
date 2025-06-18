@@ -1,5 +1,5 @@
 import grpc
-from limits import RateLimitItem, parse
+from limits import parse
 from limits.storage import MemoryStorage
 from limits.strategies import MovingWindowRateLimiter
 
