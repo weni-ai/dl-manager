@@ -2,7 +2,11 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from datalake_manager.config import REDSHIFT_MSG_METRIC, REDSHIFT_TRACE_METRIC
+from datalake_manager.config import (
+    REDSHIFT_EVENT_METRIC,
+    REDSHIFT_MSG_METRIC,
+    REDSHIFT_TRACE_METRIC,
+)
 from datalake_manager.redshift_manager import RedshiftManager
 
 
@@ -43,4 +47,34 @@ def test_insert_trace_calls_client_send(redshift_manager, mock_redshift_client):
         {"name": REDSHIFT_TRACE_METRIC, "kind": path, "fields": data}
     )
 
+    assert response == {"status": "success"}
+
+
+def test_insert_event_calls_client_send(redshift_manager, mock_redshift_client):
+    event_data = {
+        "event_name": "test_event",
+        "key": "test_key",
+        "date": "2023-10-27T10:00:00Z",
+        "project": "test_project",
+        "contact_urn": "tel:+123456789",
+        "value": "test_value",
+        "value_type": "string",
+        "metadata": {"source": "test"},
+    }
+
+    response = redshift_manager.insert_event(event_data)
+
+    expected_payload = {
+        "name": REDSHIFT_EVENT_METRIC,
+        "event_name": "test_event",
+        "key": "test_key",
+        "date": "2023-10-27T10:00:00Z",
+        "project": "test_project",
+        "contact_urn": "tel:+123456789",
+        "value": "test_value",
+        "value_type": "string",
+        "metadata": {"source": "test"},
+    }
+
+    mock_redshift_client.send.assert_called_once_with(expected_payload)
     assert response == {"status": "success"}
