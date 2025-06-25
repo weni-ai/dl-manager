@@ -4,28 +4,25 @@ import warnings
 
 import grpc
 
-import datalake_manager.server.proto.traces.traces_pb2 as traces__pb2
+import datalake_manager.server.proto.traces.traces_pb2 as traces_dot_traces__pb2
 
-GRPC_GENERATED_VERSION = "1.71.0"
+GRPC_GENERATED_VERSION = "1.73.0"
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
 try:
     from grpc._utilities import first_version_is_lower
-
-    _version_not_supported = first_version_is_lower(
-        GRPC_VERSION, GRPC_GENERATED_VERSION
-    )
+    _version_not_supported = first_version_is_lower(GRPC_VERSION, GRPC_GENERATED_VERSION)
 except ImportError:
     _version_not_supported = True
 
 if _version_not_supported:
     raise RuntimeError(
-        f"The grpc package installed is at version {GRPC_VERSION},"
-        + f" but the generated code in traces_pb2_grpc.py depends on"
-        + f" grpcio>={GRPC_GENERATED_VERSION}."
-        + f" Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}"
-        + f" or downgrade your generated code using grpcio-tools<={GRPC_VERSION}."
+        f'The grpc package installed is at version {GRPC_VERSION},'
+        + f' but the generated code in traces/traces_pb2_grpc.py depends on'
+        + f' grpcio>={GRPC_GENERATED_VERSION}.'
+        + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
+        + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
@@ -39,11 +36,10 @@ class DatalakeManagerServiceStub(object):
             channel: A grpc.Channel.
         """
         self.InsertTraceData = channel.unary_unary(
-            "/traces.DatalakeManagerService/InsertTraceData",
-            request_serializer=traces__pb2.InsertTraceRequest.SerializeToString,
-            response_deserializer=traces__pb2.InsertTraceResponse.FromString,
-            _registered_method=True,
-        )
+                '/traces.DatalakeManagerService/InsertTraceData',
+                request_serializer=traces_dot_traces__pb2.InsertTraceRequest.SerializeToString,
+                response_deserializer=traces_dot_traces__pb2.InsertTraceResponse.FromString,
+                _registered_method=True)
 
 
 class DatalakeManagerServiceServicer(object):
@@ -52,50 +48,45 @@ class DatalakeManagerServiceServicer(object):
     def InsertTraceData(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
 
 def add_DatalakeManagerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        "InsertTraceData": grpc.unary_unary_rpc_method_handler(
-            servicer.InsertTraceData,
-            request_deserializer=traces__pb2.InsertTraceRequest.FromString,
-            response_serializer=traces__pb2.InsertTraceResponse.SerializeToString,
-        ),
+            'InsertTraceData': grpc.unary_unary_rpc_method_handler(
+                    servicer.InsertTraceData,
+                    request_deserializer=traces_dot_traces__pb2.InsertTraceRequest.FromString,
+                    response_serializer=traces_dot_traces__pb2.InsertTraceResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "traces.DatalakeManagerService", rpc_method_handlers
-    )
+            'traces.DatalakeManagerService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers(
-        "traces.DatalakeManagerService", rpc_method_handlers
-    )
+    server.add_registered_method_handlers('traces.DatalakeManagerService', rpc_method_handlers)
 
 
-# This class is part of an EXPERIMENTAL API.
+ # This class is part of an EXPERIMENTAL API.
 class DatalakeManagerService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def InsertTraceData(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
+    def InsertTraceData(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/traces.DatalakeManagerService/InsertTraceData",
-            traces__pb2.InsertTraceRequest.SerializeToString,
-            traces__pb2.InsertTraceResponse.FromString,
+            '/traces.DatalakeManagerService/InsertTraceData',
+            traces_dot_traces__pb2.InsertTraceRequest.SerializeToString,
+            traces_dot_traces__pb2.InsertTraceResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -104,5 +95,4 @@ class DatalakeManagerService(object):
             wait_for_ready,
             timeout,
             metadata,
-            _registered_method=True,
-        )
+            _registered_method=True)
