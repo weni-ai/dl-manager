@@ -4,9 +4,9 @@ import warnings
 
 import grpc
 
-from . import events_pb2 as events__pb2
+from . import events_pb2 as events_dot_events__pb2
 
-GRPC_GENERATED_VERSION = '1.71.0'
+GRPC_GENERATED_VERSION = '1.73.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -19,7 +19,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in events_pb2_grpc.py depends on'
+        + f' but the generated code in events/events_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,8 +37,8 @@ class DatalakeManagerServiceStub(object):
         """
         self.InsertEventData = channel.unary_unary(
                 '/events.DatalakeManagerService/InsertEventData',
-                request_serializer=events__pb2.InsertEventRequest.SerializeToString,
-                response_deserializer=events__pb2.InsertEventResponse.FromString,
+                request_serializer=events_dot_events__pb2.InsertEventRequest.SerializeToString,
+                response_deserializer=events_dot_events__pb2.InsertEventResponse.FromString,
                 _registered_method=True)
 
 
@@ -56,8 +56,8 @@ def add_DatalakeManagerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'InsertEventData': grpc.unary_unary_rpc_method_handler(
                     servicer.InsertEventData,
-                    request_deserializer=events__pb2.InsertEventRequest.FromString,
-                    response_serializer=events__pb2.InsertEventResponse.SerializeToString,
+                    request_deserializer=events_dot_events__pb2.InsertEventRequest.FromString,
+                    response_serializer=events_dot_events__pb2.InsertEventResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -85,8 +85,8 @@ class DatalakeManagerService(object):
             request,
             target,
             '/events.DatalakeManagerService/InsertEventData',
-            events__pb2.InsertEventRequest.SerializeToString,
-            events__pb2.InsertEventResponse.FromString,
+            events_dot_events__pb2.InsertEventRequest.SerializeToString,
+            events_dot_events__pb2.InsertEventResponse.FromString,
             options,
             channel_credentials,
             insecure,
