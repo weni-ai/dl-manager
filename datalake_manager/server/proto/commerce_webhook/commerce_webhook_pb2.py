@@ -4,11 +4,14 @@
 # source: commerce_webhook/commerce_webhook.proto
 # Protobuf Python Version: 6.31.0
 """Generated protocol buffer code."""
-from google.protobuf import descriptor as _descriptor
-from google.protobuf import descriptor_pool as _descriptor_pool
-from google.protobuf import runtime_version as _runtime_version
-from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import (
+    descriptor as _descriptor,
+    descriptor_pool as _descriptor_pool,
+    runtime_version as _runtime_version,
+    symbol_database as _symbol_database,
+)
 from google.protobuf.internal import builder as _builder
+
 _runtime_version.ValidateProtobufRuntimeVersion(
     _runtime_version.Domain.PUBLIC,
     6,
@@ -22,9 +25,10 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
-from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-
+from google.protobuf import (
+    struct_pb2 as google_dot_protobuf_dot_struct__pb2,
+    timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2,
+)
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'commerce_webhook/commerce_webhook.proto\x12\x10\x63ommerce_webhook\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x94\x02\n\x1cInsertCommerceWebhookRequest\x12\x0e\n\x06status\x18\x01 \x01(\x05\x12\x10\n\x08template\x18\x02 \x01(\t\x12\x33\n\x12template_variables\x18\x03 \x01(\x0b\x32\x17.google.protobuf.Struct\x12\x13\n\x0b\x63ontact_urn\x18\x04 \x01(\t\x12&\n\x05\x65rror\x18\x05 \x01(\x0b\x32\x17.google.protobuf.Struct\x12%\n\x04\x64\x61ta\x18\x06 \x01(\x0b\x32\x17.google.protobuf.Struct\x12(\n\x04\x64\x61te\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0f\n\x07project\x18\x08 \x01(\t\"/\n\x1dInsertCommerceWebhookResponse\x12\x0e\n\x06status\x18\x01 \x01(\t2\x96\x01\n\x16\x43ommerceWebhookService\x12|\n\x19InsertCommerceWebhookData\x12..commerce_webhook.InsertCommerceWebhookRequest\x1a/.commerce_webhook.InsertCommerceWebhookResponseb\x06proto3')
 
