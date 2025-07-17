@@ -83,14 +83,17 @@ class RedshiftManager(DatalakeManager):
     def insert_commerce_webhook(self, commerce_webhook_dict: dict) -> None:
         payload = {
             "name": REDSHIFT_COMMERCE_WEBHOOK_METRIC,
-            "status": commerce_webhook_dict["status"],
-            "template": commerce_webhook_dict["template"],
-            "template_variables": commerce_webhook_dict["template_variables"],
-            "contact_urn": commerce_webhook_dict["contact_urn"],
-            "error": commerce_webhook_dict["error"],
-            "data": commerce_webhook_dict["data"],
-            "date": commerce_webhook_dict["date"],
-            "project": commerce_webhook_dict["project"],
+            "status": commerce_webhook_dict.get("status"),
+            "template": commerce_webhook_dict.get("template"),
+            "template_variables": commerce_webhook_dict.get("template_variables"),
+            "contact_urn": commerce_webhook_dict.get("contact_urn"),
+            "error": commerce_webhook_dict.get("error"),
+            "data": commerce_webhook_dict.get("data"),
+            "date": commerce_webhook_dict.get("date"),
+            "project": commerce_webhook_dict.get("project"),
+            "request": commerce_webhook_dict.get("request"),
+            "response": commerce_webhook_dict.get("response"),
+            "agent": commerce_webhook_dict.get("agent"),
         }
         response = self.client.send(payload)
         return response

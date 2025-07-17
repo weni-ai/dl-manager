@@ -131,7 +131,8 @@ class DatalakeManagerService(
 
     def InsertCommerceWebhookData(self, request, context):
         try:
-            response = self.redshift.insert_commerce_webhook(request.data)
+            data_dict = MessageToDict(request, preserving_proto_field_name=True)
+            response = self.redshift.insert_commerce_webhook(data_dict)
             print("Commerce Webhook inserted successfully!", response)
             return commerce_webhook_pb2.InsertCommerceWebhookResponse(status="success")
         except Exception as e:
