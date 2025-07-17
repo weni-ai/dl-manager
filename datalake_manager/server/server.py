@@ -130,10 +130,18 @@ class DatalakeManagerService(
 def serve():  # pragma: no cover
     # Define rate limits for each service.
     service_limits = {
-        "events.DatalakeManagerService": os.environ.get("GRPC_EVENTS_RATE_LIMIT", "2000/minute"),
-        "traces.DatalakeManagerService": os.environ.get("GRPC_TRACES_RATE_LIMIT", "300/minute"),
-        "msgs.DatalakeManagerService": os.environ.get("GRPC_MSGS_RATE_LIMIT", "1500/minute"),
-        "message_template.DatalakeManagerService": os.environ.get("GRPC_MESSAGE_TEMPLATE_RATE_LIMIT", "3000/minute"),
+        "events.DatalakeManagerService": os.environ.get(
+            "GRPC_EVENTS_RATE_LIMIT", "2000/minute"
+        ),
+        "traces.DatalakeManagerService": os.environ.get(
+            "GRPC_TRACES_RATE_LIMIT", "300/minute"
+        ),
+        "msgs.DatalakeManagerService": os.environ.get(
+            "GRPC_MSGS_RATE_LIMIT", "1500/minute"
+        ),
+        "message_template.DatalakeManagerService": os.environ.get(
+            "GRPC_MESSAGE_TEMPLATE_RATE_LIMIT", "3000/minute"
+        ),
     }
 
     # A default limit for any service not specified above.
