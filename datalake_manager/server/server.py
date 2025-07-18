@@ -4,6 +4,8 @@ from concurrent import futures
 import grpc
 from google.protobuf.json_format import MessageToDict
 
+import datalake_manager.server.proto.commerce_webhook.commerce_webhook_pb2 as commerce_webhook_pb2
+import datalake_manager.server.proto.commerce_webhook.commerce_webhook_pb2_grpc as commerce_webhook_pb2_grpc
 import datalake_manager.server.proto.message_template.message_templates_pb2 as message_templates_pb2
 import datalake_manager.server.proto.message_template.message_templates_pb2_grpc as message_templates_pb2_grpc
 import datalake_manager.server.proto.msgs.msgs_pb2 as msgs_pb2
@@ -21,6 +23,7 @@ class DatalakeManagerService(
     msgs_pb2_grpc.DatalakeManagerServiceServicer,
     traces_pb2_grpc.DatalakeManagerServiceServicer,
     message_templates_pb2_grpc.DatalakeManagerServiceServicer,
+    commerce_webhook_pb2_grpc.CommerceWebhookServiceServicer,
 ):
     def __init__(self, redshift=None):
         self.redshift = redshift or RedshiftManager()
@@ -126,6 +129,16 @@ class DatalakeManagerService(
         else:
             return ""
 
+    def InsertCommerceWebhookData(self, request, context):
+        try:
+            data_dict = MessageToDict(request, preserving_proto_field_name=True)
+            response = self.redshift.insert_commerce_webhook(data_dict)
+            print("Commerce Webhook inserted successfully!", response)
+            return commerce_webhook_pb2.InsertCommerceWebhookResponse(status="success")
+        except Exception as e:
+            print("Error inserting commerce webhook data:", str(e))
+            return commerce_webhook_pb2.InsertCommerceWebhookResponse(status="error")
+
 
 def serve():  # pragma: no cover
     # Define rate limits for each service.
@@ -165,6 +178,9 @@ def serve():  # pragma: no cover
         DatalakeManagerService(), server
     )
     events_pb2_grpc.add_DatalakeManagerServiceServicer_to_server(
+        DatalakeManagerService(), server
+    )
+    commerce_webhook_pb2_grpc.add_CommerceWebhookServiceServicer_to_server(
         DatalakeManagerService(), server
     )
     server.add_insecure_port("[::]:50051")

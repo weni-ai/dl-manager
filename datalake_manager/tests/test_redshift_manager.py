@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from datalake_manager.config import (
+    REDSHIFT_COMMERCE_WEBHOOK_METRIC,
     REDSHIFT_EVENT_METRIC,
     REDSHIFT_MSG_METRIC,
     REDSHIFT_TRACE_METRIC,
@@ -74,6 +75,44 @@ def test_insert_event_calls_client_send(redshift_manager, mock_redshift_client):
         "value": "test_value",
         "value_type": "string",
         "metadata": {"source": "test"},
+    }
+
+    mock_redshift_client.send.assert_called_once_with(expected_payload)
+    assert response == {"status": "success"}
+
+
+def test_insert_commerce_webhook_calls_client_send(
+    redshift_manager, mock_redshift_client
+):
+    commerce_webhook_data = {
+        "status": 1,
+        "template": "order_confirmation",
+        "template_variables": {"var1": "value1"},
+        "contact_urn": "tel:+123456789",
+        "error": {},
+        "data": {"order_id": "123"},
+        "date": "2023-10-26T10:00:00Z",
+        "project": "test_project",
+        "request": {"req": "info"},
+        "response": {"res": "info"},
+        "agent": "agent_007",
+    }
+
+    response = redshift_manager.insert_commerce_webhook(commerce_webhook_data)
+
+    expected_payload = {
+        "name": REDSHIFT_COMMERCE_WEBHOOK_METRIC,
+        "status": 1,
+        "template": "order_confirmation",
+        "template_variables": {"var1": "value1"},
+        "contact_urn": "tel:+123456789",
+        "error": {},
+        "data": {"order_id": "123"},
+        "date": "2023-10-26T10:00:00Z",
+        "project": "test_project",
+        "request": {"req": "info"},
+        "response": {"res": "info"},
+        "agent": "agent_007",
     }
 
     mock_redshift_client.send.assert_called_once_with(expected_payload)

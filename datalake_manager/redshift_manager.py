@@ -3,6 +3,7 @@ from typing import Any, List
 from datalake_manager.clients.redshift_client import RedshiftClient
 from datalake_manager.config import (
     DATALAKE_API_URL,
+    REDSHIFT_COMMERCE_WEBHOOK_METRIC,
     REDSHIFT_EVENT_METRIC,
     REDSHIFT_MESSAGE_TEMPLATE_METRIC,
     REDSHIFT_MESSAGE_TEMPLATE_STATUS_METRIC,
@@ -75,6 +76,24 @@ class RedshiftManager(DatalakeManager):
             "value": event_dict["value"],
             "value_type": event_dict["value_type"],
             "metadata": event_dict["metadata"],
+        }
+        response = self.client.send(payload)
+        return response
+
+    def insert_commerce_webhook(self, commerce_webhook_dict: dict) -> None:
+        payload = {
+            "name": REDSHIFT_COMMERCE_WEBHOOK_METRIC,
+            "status": commerce_webhook_dict.get("status"),
+            "template": commerce_webhook_dict.get("template"),
+            "template_variables": commerce_webhook_dict.get("template_variables"),
+            "contact_urn": commerce_webhook_dict.get("contact_urn"),
+            "error": commerce_webhook_dict.get("error"),
+            "data": commerce_webhook_dict.get("data"),
+            "date": commerce_webhook_dict.get("date"),
+            "project": commerce_webhook_dict.get("project"),
+            "request": commerce_webhook_dict.get("request"),
+            "response": commerce_webhook_dict.get("response"),
+            "agent": commerce_webhook_dict.get("agent"),
         }
         response = self.client.send(payload)
         return response
