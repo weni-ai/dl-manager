@@ -5,6 +5,7 @@ import pytest
 from google.protobuf.json_format import ParseDict
 from google.protobuf.timestamp_pb2 import Timestamp
 
+import datalake_manager.server.proto.commerce_webhook.commerce_webhook_pb2 as commerce_webhook_pb2
 import datalake_manager.server.proto.events.events_pb2 as events_pb2
 import datalake_manager.server.proto.msgs.msgs_pb2 as msgs_pb2
 import datalake_manager.server.proto.traces.traces_pb2 as traces_pb2
@@ -111,6 +112,49 @@ def test_insert_event_data_failure(service, mock_redshift):
     context = MagicMock()
     response = service.InsertEventData(request, context)
     mock_redshift.insert_event.assert_called_once()
+    assert response.status == "error"
+
+
+def test_insert_commerce_webhook_data_success(service, mock_redshift):
+    from google.protobuf.struct_pb2 import Struct
+    from google.protobuf.timestamp_pb2 import Timestamp
+
+    timestamp = Timestamp()
+    timestamp.FromJsonString("2023-10-26T10:00:00Z")
+    data_struct = Struct()
+    data_struct.update({"order_id": "123"})
+    request = commerce_webhook_pb2.InsertCommerceWebhookRequest(
+        status=1,
+        template="order_confirmation",
+        template_variables=Struct(),
+        contact_urn="tel:+123456789",
+        error=Struct(),
+        data=data_struct,
+        date=timestamp,
+        project="test_project",
+    )
+    context = MagicMock()
+    response = service.InsertCommerceWebhookData(request, context)
+    expected_data = {
+        "status": 1,
+        "template": "order_confirmation",
+        "template_variables": {},
+        "contact_urn": "tel:+123456789",
+        "error": {},
+        "data": {"order_id": "123"},
+        "date": "2023-10-26T10:00:00Z",
+        "project": "test_project",
+    }
+    mock_redshift.insert_commerce_webhook.assert_called_once_with(expected_data)
+    assert response.status == "success"
+
+
+def test_insert_commerce_webhook_data_failure(service, mock_redshift):
+    mock_redshift.insert_commerce_webhook.side_effect = Exception("DB error")
+    request = commerce_webhook_pb2.InsertCommerceWebhookRequest(status=1)
+    context = MagicMock()
+    response = service.InsertCommerceWebhookData(request, context)
+    mock_redshift.insert_commerce_webhook.assert_called_once()
     assert response.status == "error"
 
 
